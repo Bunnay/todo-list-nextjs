@@ -8,13 +8,5 @@ export interface LabelProps
   > {}
 
 export default function Label({ className, ...props }: LabelProps) {
-  return (
-    <label
-      className={clsx(
-        className,
-        'rounded-md px-2 border border-gray-300 text-sm py-1'
-      )}
-      {...props}
-    />
-  );
+  return <label className={clsx(className, 'px-2 text-xs py-1')} {...props} />;
 }

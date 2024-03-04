@@ -10,7 +10,7 @@ export default function InputField({ className, ...props }: InputProps) {
       type="text"
       className={clsx(
         className,
-        'rounded-md px-2 border border-gray-300 text-sm py-1'
+        'rounded-md px-2 border border-gray-300 text-xs py-1'
       )}
       {...props}
     />
