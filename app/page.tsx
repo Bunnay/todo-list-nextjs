@@ -173,7 +173,7 @@ export default function Home() {
         )}
 
         {isDuplicate && (
-          <small className="text-xs text-red-600">
+          <small className="text-sm text-red-600">
             This todo is already exist!
           </small>
         )}

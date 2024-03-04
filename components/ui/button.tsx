@@ -1,5 +1,5 @@
-import React from 'react';
-import { clsx } from 'clsx';
+import React from "react";
+import { clsx } from "clsx";
 
 export interface ButtonProps
   extends React.DetailedHTMLProps<
@@ -12,7 +12,7 @@ export default function Button({ className, ...props }: ButtonProps) {
     <button
       className={clsx(
         className,
-        'bg-blue-800 text-white rounded-md px-2 py-1 text-xs border-0 ring-0'
+        "bg-blue-800 text-white rounded-md px-2 py-1 text-sm border-0 ring-0"
       )}
       {...props}
     ></button>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { clsx } from 'clsx';
+import React from "react";
+import { clsx } from "clsx";
 
 export interface LabelProps
   extends React.DetailedHTMLProps<
@@ -8,5 +8,5 @@ export interface LabelProps
   > {}
 
 export default function Label({ className, ...props }: LabelProps) {
-  return <label className={clsx(className, 'px-2 text-xs py-1')} {...props} />;
+  return <label className={clsx(className, "px-2 text-sm py-1")} {...props} />;
 }
