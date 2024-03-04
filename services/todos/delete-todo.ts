@@ -1,4 +1,4 @@
-import db from '@/firebase';
+import db from "@/firebase";
 import {
   deleteDoc,
   doc,
@@ -6,12 +6,10 @@ import {
   collection,
   where,
   getDocs,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 export async function deleteTodo(id: string) {
-  const endpoint: string = 'todo';
-
-  const q = query(collection(db, endpoint), where('id', '==', id));
+  const q = query(collection(db, "todo"), where("id", "==", id));
 
   const querySnapshot = await getDocs(q);
 
@@ -19,7 +17,7 @@ export async function deleteTodo(id: string) {
     throw Error();
   }
 
-  const docRef = doc(db, endpoint, querySnapshot.docs[0].id);
+  const docRef = doc(db, "todo", querySnapshot.docs[0].id);
 
   return await deleteDoc(docRef);
 }

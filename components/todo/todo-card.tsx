@@ -1,10 +1,10 @@
-import { Todo } from '@/types/todo';
-import Checkbox from '../ui/forms/checkbox';
-import Button from '../ui/button';
-import React, { Dispatch, SetStateAction } from 'react';
-import { deleteTodo } from '@/app/api/todos/delete-todo';
-import { markAsCompleteOrIncomplete } from '@/app/api/todos/mark-as-complete-or-incomplete';
-import { toast } from 'react-toastify';
+import { Todo } from "@/types/todo";
+import Checkbox from "../ui/forms/checkbox";
+import Button from "../ui/button";
+import React, { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
+import { fetchApi } from "@/lib/fetch-api";
+import { IBaseApiResponse } from "@/types/api";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface MouseEvent extends React.MouseEvent {}
@@ -24,7 +24,7 @@ export default function TodoCard({
   setIsEdit,
 }: TodoCardProps) {
   // Handle mark as complete
-  function handleMarkAsCompleteOrIncomplete(
+  async function handleMarkAsCompleteOrIncomplete(
     id: string,
     todo: Todo,
     event: ChangeEvent
@@ -32,12 +32,12 @@ export default function TodoCard({
     event.preventDefault();
     setLoading(true);
     todo.isCompleted = !todo.isCompleted;
-    markAsCompleteOrIncomplete(id, todo)
+    await fetchApi<IBaseApiResponse>(`/api/todo/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(todo),
+    })
       .then(() => {
         fetchData();
-        todo.isCompleted
-          ? toast.success('Mark todo as complete successfully!')
-          : toast.success('Unmark todo as complete successfully!');
       })
       .catch((error) => {
         toast.error(error.message);
@@ -46,13 +46,15 @@ export default function TodoCard({
   }
 
   // Handle delete
-  function handleDelete(id: string, event: MouseEvent) {
+  async function handleDelete(id: string, event: MouseEvent) {
     event.preventDefault();
     setLoading(true);
-    deleteTodo(id)
-      .then(() => {
+    await fetchApi<IBaseApiResponse>(`/api/todo/${id}`, {
+      method: "DELETE",
+    })
+      .then((data) => {
         fetchData();
-        toast.success('Delete todo successfully!');
+        toast.success(data.message);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -78,7 +80,7 @@ export default function TodoCard({
         />
         <p
           className={
-            todo.isCompleted ? 'ms-2 text-sm line-through' : 'ms-2 text-sm'
+            todo.isCompleted ? "ms-2 text-sm line-through" : "ms-2 text-sm"
           }
         >
           {todo.todo}

@@ -1,5 +1,5 @@
-import db from '@/firebase';
-import { UpdateTodo } from '@/types/todo';
+import db from "@/firebase";
+import { UpdateTodo } from "@/types/todo";
 import {
   doc,
   query,
@@ -7,12 +7,10 @@ import {
   where,
   getDocs,
   updateDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 export async function markAsCompleteOrIncomplete(id: string, todo: UpdateTodo) {
-  const endpoint: string = 'todo';
-
-  const q = query(collection(db, endpoint), where('id', '==', id));
+  const q = query(collection(db, "todo"), where("id", "==", id));
 
   const querySnapshot = await getDocs(q);
 
@@ -20,7 +18,7 @@ export async function markAsCompleteOrIncomplete(id: string, todo: UpdateTodo) {
     throw Error();
   }
 
-  const docRef = doc(db, endpoint, querySnapshot.docs[0].id);
+  const docRef = doc(db, "todo", querySnapshot.docs[0].id);
 
   return await updateDoc(docRef, todo);
 }

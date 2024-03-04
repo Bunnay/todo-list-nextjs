@@ -1,22 +1,24 @@
 // Base api response
-export interface BaseApiResponse {
+export interface IBaseApiResponse {
   success: boolean;
   message: string;
 }
 
 // Success api response extend from base api response
-export interface SuccessApiResponse<T> extends BaseApiResponse {
-  data: T;
-  pagination?: Pagination;
+export interface ISuccessApiResponse<T> extends IBaseApiResponse {
+  data: T | null;
 }
 
 // Error api response extend from base api response
-export interface ErrorApiResponse<T> extends BaseApiResponse {
+export interface IErrorApiResponse<T> extends IBaseApiResponse {}
+
+// Validation Error api response extend from base api response
+export interface IValidationErrorApiResponse<T> extends IBaseApiResponse {
   errors?: T;
 }
 
 // Pagination
-export interface Pagination {
+export interface IPagination {
   current_page: number;
   last_page: number;
   total: number;
