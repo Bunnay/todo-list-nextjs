@@ -3,16 +3,18 @@
 import { getAllTodos } from "@/services/todos/get-all-todos";
 import { NextResponse, NextRequest } from "next/server";
 import { addTodo } from "@/services/todos/add-todo";
+import SuccessApiResponseHandler from "@/lib/handlers/api-handler/success-api-response-handler";
+import ErrorApiResponseHandler from "@/lib/handlers/api-handler/error-api-response-handler";
 import { Todo } from "@/types/todo";
-import ApiResponseHandler from "@/lib/handlers/api-handler/api-response-handler";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   // get only for search query;
   const search = (new URL(req.url).searchParams.get("search") as string) || "";
 
-  // get todos data from todo services
+  // Get all todos data function
   const todos = await getAllTodos(search);
 
+  // Return response
   return NextResponse.json(todos);
 }
 
@@ -23,11 +25,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
   // Parse the JSON data
   const body: Todo = JSON.parse(bodyDataText);
 
-  // Get todos data from todo services
-  await addTodo(body);
+  try {
+    // Add todos data function
+    await addTodo(body);
 
-  //  format response data
-  const response = new ApiResponseHandler(true, "Add todo successfully!");
+    // Format response
+    const response = new SuccessApiResponseHandler().withData(body);
 
-  return NextResponse.json(response);
+    // Return response data
+    return NextResponse.json(response);
+  } catch (error) {
+    // Format error response
+    const err = new ErrorApiResponseHandler();
+
+    // Return error data
+    return NextResponse.json(err, { status: err.statusCode });
+  }
 }

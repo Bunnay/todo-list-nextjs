@@ -1,7 +1,7 @@
-import { Todo } from '@/types/todo';
-import InputField from '../ui/forms/input-field';
-import React from 'react';
-import Button from '../ui/button';
+import { Todo } from "@/types/todo";
+import InputField from "../ui/forms/input-field";
+import React from "react";
+import Button from "../ui/button";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface AddTodoFormProps {
@@ -23,6 +23,7 @@ export default function AddTodoForm({
         value={formData.todo}
         onChange={handleChange}
         placeholder="Write here..."
+        autoFocus={true}
       />
 
       <Button

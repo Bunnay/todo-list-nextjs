@@ -10,7 +10,9 @@ export interface ISuccessApiResponse<T> extends IBaseApiResponse {
 }
 
 // Error api response extend from base api response
-export interface IErrorApiResponse<T> extends IBaseApiResponse {}
+export interface IErrorApiResponse<T> extends IBaseApiResponse {
+  statusCode: number;
+}
 
 // Validation Error api response extend from base api response
 export interface IValidationErrorApiResponse<T> extends IBaseApiResponse {
