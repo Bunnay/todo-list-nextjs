@@ -4,9 +4,11 @@ import ApiResponseHandler from "./api-response-handler";
 class ValidationErrorApiResponseHandler<T> extends ApiResponseHandler {
   public errors: T;
 
-  constructor(errors: T) {
-    super(false, "The data is invalid!");
+  constructor(errors: T, message?: string) {
+    super(false, message || "The data is invalid!");
     this.errors = errors;
+
+    this.render();
   }
 
   render(): IValidationErrorApiResponse<T> {

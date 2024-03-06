@@ -2,8 +2,10 @@ import { IBaseApiResponse, ISuccessApiResponse } from "@/types/api";
 import ApiResponseHandler from "./api-response-handler";
 
 class SuccessApiResponseHandler<T> extends ApiResponseHandler {
-  constructor() {
-    super(true, "Successful request!");
+  constructor(message?: string) {
+    super(true, message || "Successful request!");
+
+    this.render();
   }
 
   render(): IBaseApiResponse {

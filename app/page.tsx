@@ -12,7 +12,7 @@ import SearchTodoForm from "@/components/todo/search-form";
 import { toast } from "react-toastify";
 import { Timestamp } from "firebase/firestore";
 import { fetchApi } from "@/lib/fetch-api";
-import { IBaseApiResponse } from "@/types/api";
+import { IBaseApiResponse, ISuccessApiResponse } from "@/types/api";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {}
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
@@ -66,7 +66,7 @@ export default function Home() {
   async function handleAdd(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
-    await fetchApi<IBaseApiResponse>("/api/todo", {
+    await fetchApi<ISuccessApiResponse<Todo>>("/api/todo", {
       method: "POST",
       body: JSON.stringify(formData),
     })
@@ -85,7 +85,7 @@ export default function Home() {
   async function handleUpdate(id: string, event: FormEvent) {
     event.preventDefault();
     setLoading(true);
-    await fetchApi<IBaseApiResponse>(`/api/todo/${id}`, {
+    await fetchApi<ISuccessApiResponse<Todo>>(`/api/todo/${id}`, {
       method: "PUT",
       body: JSON.stringify(selectedData),
     })
@@ -157,12 +157,14 @@ export default function Home() {
         className="mb-5"
       >
         {!isEdit ? (
+          // Add todo form
           <AddTodoForm
             formData={formData}
             isDuplicate={isDuplicate}
             handleChange={(event: ChangeEvent) => handleChange(event)}
           />
         ) : (
+          // Update todo form
           <UpdateTodoForm
             formData={selectedData}
             setIsEdit={setIsEdit}
@@ -172,6 +174,7 @@ export default function Home() {
           />
         )}
 
+        {/* Error alert when duplicate todo */}
         {isDuplicate && (
           <small className="text-sm text-red-600">
             This todo is already exist!

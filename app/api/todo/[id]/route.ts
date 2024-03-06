@@ -7,6 +7,7 @@ import { deleteTodo } from "@/services/todos/delete-todo";
 import { updateTodo } from "@/services/todos/update-todo";
 import SuccessApiResponseHandler from "@/lib/handlers/api-handler/success-api-response-handler";
 import ErrorApiResponseHandler from "@/lib/handlers/api-handler/error-api-response-handler";
+import { IBaseApiResponse } from "@/types/api";
 
 export async function GET(req: NextRequest) {
   // Get only for search query;
@@ -34,7 +35,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     await deleteTodo(id);
 
     //  Format response data
-    const response = new SuccessApiResponseHandler();
+    const response = new SuccessApiResponseHandler<IBaseApiResponse>();
 
     // Return data
     return NextResponse.json(response);
@@ -65,7 +66,7 @@ export async function PUT(req: NextRequest) {
     await updateTodo(id, body);
 
     // Format response data
-    const response = new SuccessApiResponseHandler().withData(body);
+    const response = new SuccessApiResponseHandler<Todo>().withData(body);
 
     // Return data
     return NextResponse.json(response);

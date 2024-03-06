@@ -6,11 +6,11 @@ export interface IBaseApiResponse {
 
 // Success api response extend from base api response
 export interface ISuccessApiResponse<T> extends IBaseApiResponse {
-  data: T | null;
+  data: T;
 }
 
 // Error api response extend from base api response
-export interface IErrorApiResponse<T> extends IBaseApiResponse {
+export interface IErrorApiResponse extends IBaseApiResponse {
   statusCode: number;
 }
 

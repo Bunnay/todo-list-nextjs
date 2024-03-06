@@ -30,7 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await addTodo(body);
 
     // Format response
-    const response = new SuccessApiResponseHandler().withData(body);
+    const response = new SuccessApiResponseHandler<Todo>().withData(body);
 
     // Return response data
     return NextResponse.json(response);

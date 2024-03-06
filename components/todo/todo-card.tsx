@@ -4,7 +4,7 @@ import Button from "../ui/button";
 import React, { Dispatch, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import { fetchApi } from "@/lib/fetch-api";
-import { IBaseApiResponse } from "@/types/api";
+import { IBaseApiResponse, ISuccessApiResponse } from "@/types/api";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface MouseEvent extends React.MouseEvent {}
@@ -32,7 +32,7 @@ export default function TodoCard({
     event.preventDefault();
     setLoading(true);
     todo.isCompleted = !todo.isCompleted;
-    await fetchApi<IBaseApiResponse>(`/api/todo/${id}`, {
+    await fetchApi<ISuccessApiResponse<Todo>>(`/api/todo/${id}`, {
       method: "PUT",
       body: JSON.stringify(todo),
     })
