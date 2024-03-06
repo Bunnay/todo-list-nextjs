@@ -12,7 +12,7 @@ import SearchTodoForm from "@/components/todo/search-form";
 import { toast } from "react-toastify";
 import { Timestamp } from "firebase/firestore";
 import { fetchApi } from "@/lib/fetch-api";
-import { IBaseApiResponse, ISuccessApiResponse } from "@/types/api";
+import { ISuccessApiResponse } from "@/types/api";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {}
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
@@ -29,7 +29,7 @@ export default function Home() {
   const newTodo = getNewTodo();
   const [loading, setLoading] = React.useState<boolean>(true);
   const [formData, setFormData] = React.useState<Todo>(newTodo);
-  const [selectedData, setSelectedData] = React.useState<Todo>(newTodo);
+  const [selectedData, setSelectedData] = React.useState<Todo | null>(null);
   const [todos, setTodos] = React.useState<Todo[]>([]);
   const [isEdit, setIsEdit] = React.useState(false);
   const [isDuplicate, setIsDuplicate] = React.useState(false);
@@ -40,7 +40,7 @@ export default function Home() {
     const { name, value } = event.target;
 
     // Check duplicate todo
-    handleDuplicateTodo(value);
+    handleDuplicateTodo(value.trim());
 
     // Set new value to data
     !isEdit
@@ -48,10 +48,14 @@ export default function Home() {
           ...prevFormData,
           [name]: value,
         }))
-      : setSelectedData((prevFormData) => ({
-          ...prevFormData,
-          [name]: value,
-        }));
+      : setSelectedData((prevFormData) =>
+          prevFormData
+            ? {
+                ...prevFormData,
+                [name]: value,
+              }
+            : null
+        );
   };
 
   // Handle duplicate todo
@@ -137,23 +141,29 @@ export default function Home() {
       ) : (
         <div>
           {todos.map((todo) => (
-            <TodoCard
-              todo={todo}
-              setLoading={setLoading}
-              setSelectedData={setSelectedData}
-              setIsEdit={setIsEdit}
-              fetchData={fetchData}
-              key={todo.id}
-            />
+            <>
+              <TodoCard
+                todo={todo}
+                isSelected={todo.id === selectedData?.id}
+                setLoading={setLoading}
+                setSelectedData={setSelectedData}
+                setIsEdit={setIsEdit}
+                fetchData={fetchData}
+                key={todo.id}
+              />
+            </>
           ))}
         </div>
       )}
 
       {/* Todo form */}
       <form
-        onSubmit={(event: FormEvent) =>
-          isEdit ? handleUpdate(selectedData.id, event) : handleAdd(event)
-        }
+        onSubmit={(event: FormEvent) => {
+          isEdit
+            ? handleUpdate(selectedData?.id || "", event)
+            : handleAdd(event);
+          setSelectedData(null);
+        }}
         className="mb-5"
       >
         {!isEdit ? (
@@ -168,6 +178,7 @@ export default function Home() {
           <UpdateTodoForm
             formData={selectedData}
             setIsEdit={setIsEdit}
+            setFormData={setSelectedData}
             isDuplicate={isDuplicate}
             setIsDuplicate={setIsDuplicate}
             handleChange={(event: ChangeEvent) => handleChange(event)}

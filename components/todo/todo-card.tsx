@@ -11,7 +11,8 @@ interface MouseEvent extends React.MouseEvent {}
 interface TodoCardProps {
   todo: Todo;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedData: Dispatch<SetStateAction<Todo>>;
+  setSelectedData: Dispatch<SetStateAction<Todo | null>>;
+  isSelected: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   fetchData: () => void;
 }
@@ -20,6 +21,7 @@ export default function TodoCard({
   todo,
   setLoading,
   fetchData,
+  isSelected,
   setSelectedData,
   setIsEdit,
 }: TodoCardProps) {
@@ -64,7 +66,11 @@ export default function TodoCard({
 
   return (
     <div
-      className="grid grid-cols-2 h-10 group items-center border border-1 rounded-md my-2"
+      className={
+        !isSelected
+          ? "grid grid-cols-2 h-10 group items-center border border-1 rounded-md my-2"
+          : "grid grid-cols-2 h-10 group items-center border border-1 rounded-md my-2 bg-gray-200"
+      }
       key={todo.id}
     >
       <div className="ml-3 flex items-center peer">

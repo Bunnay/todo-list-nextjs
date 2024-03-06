@@ -5,7 +5,8 @@ import Button from "../ui/button";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface UpdateTodoFormProps {
-  formData: Todo;
+  formData: Todo | null;
+  setFormData: Dispatch<SetStateAction<Todo | null>>;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isDuplicate: boolean;
   setIsDuplicate: Dispatch<SetStateAction<boolean>>;
@@ -18,13 +19,14 @@ export default function UpdateTodoForm({
   isDuplicate,
   setIsDuplicate,
   handleChange,
+  setFormData,
 }: UpdateTodoFormProps) {
   return (
     <div>
       <InputField
         id="todo"
         name="todo"
-        value={formData.todo}
+        value={formData?.todo}
         onChange={handleChange}
         placeholder="Write here..."
         autoFocus={true}
@@ -32,14 +34,14 @@ export default function UpdateTodoForm({
       <Button
         type="submit"
         className="ms-2 bg-orange-600"
-        disabled={!formData.todo.trim() || isDuplicate}
+        disabled={!formData?.todo.trim() || isDuplicate}
       >
         Save
       </Button>
       <Button
         className="ms-1 bg-gray-400"
-        onClick={() => {
-          setIsEdit(false), setIsDuplicate(false);
+        onClick={(event) => {
+          setIsEdit(false), setIsDuplicate(false), setFormData(null);
         }}
       >
         Cancel
