@@ -141,17 +141,15 @@ export default function Home() {
       ) : (
         <div>
           {todos.map((todo) => (
-            <>
-              <TodoCard
-                todo={todo}
-                isSelected={todo.id === selectedData?.id}
-                setLoading={setLoading}
-                setSelectedData={setSelectedData}
-                setIsEdit={setIsEdit}
-                fetchData={fetchData}
-                key={todo.id}
-              />
-            </>
+            <TodoCard
+              todo={todo}
+              isSelected={todo.id === selectedData?.id}
+              setLoading={setLoading}
+              setSelectedData={setSelectedData}
+              setIsEdit={setIsEdit}
+              fetchData={fetchData}
+              key={todo.id}
+            />
           ))}
         </div>
       )}
