@@ -1,7 +1,7 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
 
 // Base Todo type
-export interface Todo {
+export interface ITodo {
   id: string;
   todo: string;
   isCompleted: boolean;
@@ -9,8 +9,8 @@ export interface Todo {
 }
 
 // Add todo
-export interface AddTodo
-  extends Omit<Todo, 'id' | 'createdAt' | 'isCompleted'> {}
+export interface IAddTodo
+  extends Omit<ITodo, "id" | "createdAt" | "isCompleted"> {}
 
 // Update todo
-export interface UpdateTodo extends Omit<Todo, 'id' | 'createdAt'> {}
+export interface IUpdateTodo extends Omit<ITodo, "id" | "createdAt"> {}

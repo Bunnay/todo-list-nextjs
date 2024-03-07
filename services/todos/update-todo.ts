@@ -1,4 +1,4 @@
-import { UpdateTodo } from "@/types/todo";
+import { IUpdateTodo } from "@/types/todo";
 import db from "@/firebase";
 import {
   updateDoc,
@@ -9,7 +9,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-export async function updateTodo(id: string, todo: UpdateTodo) {
+export async function updateTodo(id: string, todo: IUpdateTodo) {
   const q = query(collection(db, "todo"), where("id", "==", id));
 
   const querySnapshot = await getDocs(q);

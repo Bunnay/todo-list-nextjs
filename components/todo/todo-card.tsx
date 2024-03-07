@@ -1,4 +1,4 @@
-import { Todo } from "@/types/todo";
+import { ITodo } from "@/types/todo";
 import Checkbox from "../ui/forms/checkbox";
 import Button from "../ui/button";
 import React, { Dispatch, SetStateAction } from "react";
@@ -9,9 +9,9 @@ import { IBaseApiResponse, ISuccessApiResponse } from "@/types/api";
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface MouseEvent extends React.MouseEvent {}
 interface TodoCardProps {
-  todo: Todo;
+  todo: ITodo;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedData: Dispatch<SetStateAction<Todo | null>>;
+  setSelectedData: Dispatch<SetStateAction<ITodo | null>>;
   isSelected: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   fetchData: () => void;
@@ -28,13 +28,13 @@ export default function TodoCard({
   // Handle mark as complete
   async function handleMarkAsCompleteOrIncomplete(
     id: string,
-    todo: Todo,
+    todo: ITodo,
     event: ChangeEvent
   ) {
     event.preventDefault();
     setLoading(true);
     todo.isCompleted = !todo.isCompleted;
-    await fetchApi<ISuccessApiResponse<Todo>>(`/api/todo/${id}`, {
+    await fetchApi<ISuccessApiResponse<ITodo>>(`/api/todo/${id}`, {
       method: "PUT",
       body: JSON.stringify(todo),
     })

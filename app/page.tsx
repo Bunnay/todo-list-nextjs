@@ -1,7 +1,7 @@
 "use client";
 
 import TodoCard from "@/components/todo/todo-card";
-import { Todo } from "@/types/todo";
+import { ITodo } from "@/types/todo";
 import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NoData from "@/components/ui/no-data";
@@ -19,7 +19,7 @@ interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 
 export default function Home() {
   // Default todo data
-  const getNewTodo = (): Todo => ({
+  const getNewTodo = (): ITodo => ({
     id: uuidv4(),
     todo: "",
     isCompleted: false,
@@ -28,9 +28,9 @@ export default function Home() {
 
   const newTodo = getNewTodo();
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [formData, setFormData] = React.useState<Todo>(newTodo);
-  const [selectedData, setSelectedData] = React.useState<Todo | null>(null);
-  const [todos, setTodos] = React.useState<Todo[]>([]);
+  const [formData, setFormData] = React.useState<ITodo>(newTodo);
+  const [selectedData, setSelectedData] = React.useState<ITodo | null>(null);
+  const [todos, setTodos] = React.useState<ITodo[]>([]);
   const [isEdit, setIsEdit] = React.useState(false);
   const [isDuplicate, setIsDuplicate] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -61,7 +61,7 @@ export default function Home() {
   // Handle duplicate todo
   const handleDuplicateTodo = (value: string) => {
     const isDup = todos.some(
-      (todo: Todo) => todo.todo.toLowerCase() == value.toLowerCase()
+      (todo: ITodo) => todo.todo.toLowerCase() == value.toLowerCase()
     );
     setIsDuplicate(isDup);
   };
@@ -70,7 +70,7 @@ export default function Home() {
   async function handleAdd(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
-    await fetchApi<ISuccessApiResponse<Todo>>("/api/todo", {
+    await fetchApi<ISuccessApiResponse<ITodo>>("/api/todo", {
       method: "POST",
       body: JSON.stringify(formData),
     })
@@ -89,7 +89,7 @@ export default function Home() {
   async function handleUpdate(id: string, event: FormEvent) {
     event.preventDefault();
     setLoading(true);
-    await fetchApi<ISuccessApiResponse<Todo>>(`/api/todo/${id}`, {
+    await fetchApi<ISuccessApiResponse<ITodo>>(`/api/todo/${id}`, {
       method: "PUT",
       body: JSON.stringify(selectedData),
     })
@@ -109,7 +109,7 @@ export default function Home() {
   const fetchData = async () => {
     const endpoint = search ? `/api/todo?search=${search}` : "/api/todo";
     setLoading(true);
-    await fetchApi<Todo[]>(endpoint).then((data) => {
+    await fetchApi<ITodo[]>(endpoint).then((data) => {
       setTodos(data);
     });
     setLoading(false);

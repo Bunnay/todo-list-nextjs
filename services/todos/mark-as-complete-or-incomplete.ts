@@ -1,5 +1,5 @@
 import db from "@/firebase";
-import { UpdateTodo } from "@/types/todo";
+import { IUpdateTodo } from "@/types/todo";
 import {
   doc,
   query,
@@ -9,7 +9,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export async function markAsCompleteOrIncomplete(id: string, todo: UpdateTodo) {
+export async function markAsCompleteOrIncomplete(
+  id: string,
+  todo: IUpdateTodo
+) {
   const q = query(collection(db, "todo"), where("id", "==", id));
 
   const querySnapshot = await getDocs(q);

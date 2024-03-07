@@ -1,7 +1,7 @@
 "use server";
 
 import { NextResponse, NextRequest } from "next/server";
-import { Todo } from "@/types/todo";
+import { ITodo } from "@/types/todo";
 import { getTodoById } from "@/services/todos/get-todo-by-id";
 import { deleteTodo } from "@/services/todos/delete-todo";
 import { updateTodo } from "@/services/todos/update-todo";
@@ -56,7 +56,7 @@ export async function PUT(req: NextRequest) {
   const bodyDataText = await req.text();
 
   // Parse the JSON data
-  const body: Todo = JSON.parse(bodyDataText);
+  const body: ITodo = JSON.parse(bodyDataText);
 
   //   Get id from path name
   const id = url.pathname.split("/").pop() as string;
@@ -66,7 +66,7 @@ export async function PUT(req: NextRequest) {
     await updateTodo(id, body);
 
     // Format response data
-    const response = new SuccessApiResponseHandler<Todo>().withData(body);
+    const response = new SuccessApiResponseHandler<ITodo>().withData(body);
 
     // Return data
     return NextResponse.json(response);

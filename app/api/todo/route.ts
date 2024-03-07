@@ -5,7 +5,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { addTodo } from "@/services/todos/add-todo";
 import SuccessApiResponseHandler from "@/lib/handlers/api-handler/success-api-response-handler";
 import ErrorApiResponseHandler from "@/lib/handlers/api-handler/error-api-response-handler";
-import { Todo } from "@/types/todo";
+import { ITodo } from "@/types/todo";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   // get only for search query;
@@ -23,14 +23,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const bodyDataText = await req.text();
 
   // Parse the JSON data
-  const body: Todo = JSON.parse(bodyDataText);
+  const body: ITodo = JSON.parse(bodyDataText);
 
   try {
     // Add todos data function
     await addTodo(body);
 
     // Format response
-    const response = new SuccessApiResponseHandler<Todo>().withData(body);
+    const response = new SuccessApiResponseHandler<ITodo>().withData(body);
 
     // Return response data
     return NextResponse.json(response);

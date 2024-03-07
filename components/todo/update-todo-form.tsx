@@ -1,12 +1,12 @@
-import { Todo } from "@/types/todo";
+import { ITodo } from "@/types/todo";
 import InputField from "../ui/forms/input-field";
 import React, { Dispatch, SetStateAction } from "react";
 import Button from "../ui/button";
 
 interface ChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
 interface UpdateTodoFormProps {
-  formData: Todo | null;
-  setFormData: Dispatch<SetStateAction<Todo | null>>;
+  formData: ITodo | null;
+  setFormData: Dispatch<SetStateAction<ITodo | null>>;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isDuplicate: boolean;
   setIsDuplicate: Dispatch<SetStateAction<boolean>>;
